@@ -1,0 +1,1 @@
+[0; 0; -g*m; -g*m*cos(theta)*(ycm*cos(phi) - zcm*sin(phi)); g*m*(xcm*cos(theta) + zcm*cos(phi)*sin(theta) + ycm*sin(phi)*sin(theta)); 0]
