@@ -12,12 +12,12 @@ zp= inputs(9);
 phip= inputs(10);
 thetap= inputs(11);
 psip = inputs(12);
-omega1 = inputs(13);
-omega2 = inputs(14);
-omega3 = inputs(15);
-omega4= inputs(16);
+f3 = inputs(13);
+f4 = inputs(14);
+f1 = inputs(15);
+f2= inputs(16);
 
-u = [omega1;omega2;omega3;omega4];
+
 q = [x;y;z;phi;theta;psi];
 qp = [xp;yp;zp;phip;thetap;psip];
 
@@ -43,17 +43,29 @@ k_coef = parameters.k_coef;
 sinbeta = sin(beta);
 cosbeta = cos(beta);
 
-B1 = [RIB,zeros(3,3);zeros(3,3),inv(Wn)];%conferir depois
-B2 = ([-b*sinbeta,0,b*sinbeta,0;
-     0,-b*sinbeta,0,b*sinbeta;
-     b*cosbeta,b*cosbeta,b*cosbeta,b*cosbeta;
-     0,l*b*cosbeta,0,-l*b*cosbeta;
-     -l*b*cosbeta,0,l*b*cosbeta,0;
-     k_coef*cosbeta,-k_coef*cosbeta,k_coef*cosbeta,-k_coef*cosbeta])*(1/b);   
+ B1 = [RIB,zeros(3,3);zeros(3,3),inv(Wn)];%conferir depois
+ B2 = ([-b*sinbeta,0,b*sinbeta,0;
+      0,-b*sinbeta,0,b*sinbeta;
+      b*cosbeta,b*cosbeta,b*cosbeta,b*cosbeta;
+      0,l*b*cosbeta,0,-l*b*cosbeta;
+      -l*b*cosbeta,0,l*b*cosbeta,0;
+      k_coef*cosbeta,-k_coef*cosbeta,k_coef*cosbeta,-k_coef*cosbeta])*(1/b);   
+
+
+% B1 = [inv(Wn),zeros(3,3);zeros(3,3),RIB];%conferir depois
+% B2 = ([0,l*b*cosbeta,0,-l*b*cosbeta;
+%      -l*b*cosbeta,0,l*b*cosbeta,0;
+%      k_coef*cosbeta,-k_coef*cosbeta,k_coef*cosbeta,-k_coef*cosbeta;
+%     -b*sinbeta,0,b*sinbeta,0;
+%      0,-b*sinbeta,0,b*sinbeta;
+%      b*cosbeta,b*cosbeta,b*cosbeta,b*cosbeta])*(1/b);  
+
+
 
 CouplingMatrix = B1*B2;   
 
 %% Euler Lagrange Nonlinear Model
+u = [f3;f4;f1;f2];
 qpp = M\(CouplingMatrix*u - G - C*qp);
 
 end
