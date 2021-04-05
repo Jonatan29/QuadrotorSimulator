@@ -22,11 +22,11 @@ q = [x;y;z;phi;theta;psi];
 qp = [xp;yp;zp;phip;thetap;psip];
 
 %% Use the Parameters values from param file
-addpath('..\QuadParameters')
+%addpath('..\QuadParameters')
 parameters = QuadrotorParameters();
 
 %% Get The Euler Lagrange Matrices
-addpath('..\fnc_general')
+%addpath('..\fnc_general')
 [M, C, G] = GetEulerLagrange(q,qp,parameters);
 
 %% Get Orientation Matrix and Euler Matrix

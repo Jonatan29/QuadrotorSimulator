@@ -22,19 +22,15 @@ q = [x;y;z;phi;theta;psi];
 qp = [xp;yp;zp;phip;thetap;psip];
 
 %% Use the Parameters values from param file
-addpath('..\QuadParameters')
+%addpath('..\QuadParameters')
 parameters = QuadrotorParameters();
 
 %% Get The Euler Lagrange Matrices
-addpath('..\fnc_general')
+%addpath('..\fnc_general')
 [M, C, G] = GetEulerLagrange(q,qp,parameters);
 
 %% Get Orientation Matrix and Euler Matrix
-Rx = Rotx(phi);
-Ry = Roty(theta);
-Rz = Rotz(psi);
-RIB = Rz*Ry*Rx;
-Wn = [1 0 -sin(theta); 0 cos(phi) sin(phi)*cos(theta); 0 -sin(phi) cos(phi)*cos(theta)];
+[RIB, Wn] = GetOrientationAndEulerMatrices(phi,theta,psi);
 %% Generalized Forces Coupling Matrix
 beta = parameters.beta;
 b = parameters.b;
