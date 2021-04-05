@@ -1,9 +1,10 @@
 %% Add path to Necessary Files
 addpath('Trim&Linearize')
-addpath('fnc_general')
+addpath('GeneralFunctions')
 addpath('QuadParameters')
 addpath('Trajectories')
 addpath('SimulinkFiles')
+addpath('Controllers')
 %% Find Nonlinear Model Trim points
 SimulinkTrimFile = 'SIMULINK_Trim';
 States_q = [0;0;2;0;0;0];
@@ -36,14 +37,16 @@ ctrbil = rank(co)
 global ProportionalController
 ProportionalController.K = K;
 %% Simulate Using Simulink
-trajectorystring = 'Simulink_Trajectory_Helicoidal';
+Trajectory = 'Simulink_Trajectory_InfinityShape'
+ControlStrategy = 'Simulink_Controller_LQR'
 simTime = 40;
-InitCondqp = [0;0;0;0;0;0];
-InitCondq = [0;0;0;0;0;0];
+InitCondqp = [0;0;0;0;0;0]
+InitCondq = [8;0;0;0;0;0]
 open_system('SIMULINK_LQR')
 set_param('SIMULINK_LQR/Integratorqpp','InitialCondition',mat2str(InitCondqp))
 set_param('SIMULINK_LQR/Integratorqp','InitialCondition',mat2str(InitCondq))
-set_param('SIMULINK_LQR/Trajectory','MATLABFcn',trajectorystring)
+set_param('SIMULINK_LQR/Trajectory','MATLABFcn',Trajectory)
+set_param('SIMULINK_LQR/Controller','MATLABFcn',ControlStrategy)
 save_system('SIMULINK_LQR')
 close_system('SIMULINK_LQR')
 out = sim('SIMULINK_LQR',simTime)
